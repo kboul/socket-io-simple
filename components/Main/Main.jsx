@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import Card from "../Card/Card";
 import Navbar from "../Navbar/Navbar";
-
 import Styled from "./styles";
+import { posts } from "./constants";
 
 export default function Main() {
   const [username, setUsername] = useState("");
@@ -14,7 +14,9 @@ export default function Main() {
       {user ? (
         <>
           <Navbar />
-          <Card />
+          {posts.map((post) => (
+            <Card key={post.id} post={post} />
+          ))}
           <Styled.UsernameLabel>{user}</Styled.UsernameLabel>
         </>
       ) : (
