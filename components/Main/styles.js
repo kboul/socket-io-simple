@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-const Container = styled.main``;
+const Container = styled.main`
+  width: 50vh;
+  border-radius: 5px;
+  border: 0.5px solid lightseagreen;
+`;
 
 const Form = styled.form`
   height: 50vh;
@@ -8,6 +12,14 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const UsernameLabel = styled.span`
+  font-weight: bold;
+  color: lightseagreen;
+  position: absolute;
+  top: 15px;
+  right: 15px;
 `;
 
 const UsernameInput = styled.input`
@@ -26,4 +38,4 @@ const LoginBtn = styled.button`
   cursor: pointer;
 `;
 
-export default { Container, Form, LoginBtn, UsernameInput };
+export default { Container, Form, LoginBtn, UsernameInput, UsernameLabel };

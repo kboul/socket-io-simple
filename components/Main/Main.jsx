@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import Card from "../Card/Card";
+import Navbar from "../Navbar/Navbar";
+
 import Styled from "./styles";
 
 export default function Main() {
@@ -8,16 +11,24 @@ export default function Main() {
 
   return (
     <Styled.Container>
-      <Styled.Form>
-        <Styled.UsernameInput
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="username"
-          value={username}
-        />
-        <Styled.LoginBtn onClick={() => setUser(username)}>
-          Login
-        </Styled.LoginBtn>
-      </Styled.Form>
+      {user ? (
+        <>
+          <Navbar />
+          <Card />
+          <Styled.UsernameLabel>{user}</Styled.UsernameLabel>
+        </>
+      ) : (
+        <Styled.Form>
+          <Styled.UsernameInput
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="username"
+            value={username}
+          />
+          <Styled.LoginBtn onClick={() => setUser(username)}>
+            Login
+          </Styled.LoginBtn>
+        </Styled.Form>
+      )}
     </Styled.Container>
   );
 }
