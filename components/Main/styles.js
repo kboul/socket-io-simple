@@ -29,7 +29,7 @@ const UsernameInput = styled.input`
 `;
 
 const LoginBtn = styled.button`
-  width: 60%;
+  width: 55%;
   padding: 10px;
   background-color: lightseagreen;
   color: white;

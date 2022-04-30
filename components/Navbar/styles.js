@@ -5,7 +5,7 @@ const Container = styled.div`
   height: 50px;
   background-color: lightseagreen;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   color: white;
 `;
@@ -36,6 +36,7 @@ const HeroCogIcon = styled(CogIcon)(Icon);
 const HeroMailIcon = styled(MailIcon)(Icon);
 
 const Logo = styled.span`
+  margin-left: 10px;
   font-weight: bold;
   font-size: 20px;
 `;
