@@ -6,6 +6,7 @@ import {
   InformationCircleIcon,
   ShareIcon,
 } from "@heroicons/react/outline";
+import { HeartIcon as HeartFilledIcon } from "@heroicons/react/solid";
 
 const Container = styled.div`
   height: 280px;
@@ -24,6 +25,7 @@ const Icon = css`
 
 const HeroChatIcon = styled(ChatIcon)(Icon);
 const HeroHeartIcon = styled(HeartIcon)(Icon);
+const HeroHeartFilledIcon = styled(HeartFilledIcon)(Icon);
 const HeroInfoIcon = styled(InformationCircleIcon)(Icon);
 const HeroShareIcon = styled(ShareIcon)(Icon);
 
@@ -67,6 +69,7 @@ export default {
   Fullname,
   HeroChatIcon,
   HeroHeartIcon,
+  HeroHeartFilledIcon,
   HeroInfoIcon,
   HeroShareIcon,
   IconsContainer,

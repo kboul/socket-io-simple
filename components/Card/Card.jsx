@@ -1,7 +1,16 @@
+import { useState } from "react";
+
 import Styled from "./styles";
 
 export default function Card({ post }) {
+  const [liked, setLiked] = useState(false);
+
   if (!post) return null;
+
+  const HeartIcon = Styled[liked ? "HeroHeartFilledIcon" : "HeroHeartIcon"];
+
+  const handleHeartIconClick = () => setLiked((prevState) => !prevState);
+
   return (
     <Styled.Container>
       <Styled.InfoContainer>
@@ -16,7 +25,7 @@ export default function Card({ post }) {
       </Styled.PostImgContainer>
 
       <Styled.IconsContainer>
-        <Styled.HeroHeartIcon />
+        <HeartIcon onClick={handleHeartIconClick} />
         <Styled.HeroChatIcon />
         <Styled.HeroShareIcon />
         <Styled.HeroInfoIcon />
