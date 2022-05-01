@@ -1,15 +1,25 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 import Styled from "./styles";
 
-export default function Card({ post }) {
+export default function Card({ post, socket, user }) {
   const [liked, setLiked] = useState(false);
 
   if (!post) return null;
 
   const HeartIcon = Styled[liked ? "HeroHeartFilledIcon" : "HeroHeartIcon"];
 
-  const handleHeartIconClick = () => setLiked((prevState) => !prevState);
+  const handleIconClick = (type) => {
+    if (!socket) return;
+
+    setLiked(true);
+    socket.emit("sendNotification", {
+      senderName: user,
+      receiverName: post.username,
+      type,
+    });
+  };
 
   return (
     <Styled.Container>
@@ -25,11 +35,17 @@ export default function Card({ post }) {
       </Styled.PostImgContainer>
 
       <Styled.IconsContainer>
-        <HeartIcon onClick={handleHeartIconClick} />
-        <Styled.HeroChatIcon />
-        <Styled.HeroShareIcon />
+        <HeartIcon onClick={() => handleIconClick(1)} />
+        <Styled.HeroChatIcon onClick={() => handleIconClick(2)} />
+        <Styled.HeroShareIcon onClick={() => handleIconClick(3)} />
         <Styled.HeroInfoIcon />
       </Styled.IconsContainer>
     </Styled.Container>
   );
 }
+
+Card.propTypes = {
+  post: PropTypes.object.isRequired,
+  socket: PropTypes.object,
+  user: PropTypes.string.isRequired,
+};
