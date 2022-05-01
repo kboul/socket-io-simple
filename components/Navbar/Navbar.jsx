@@ -17,7 +17,7 @@ export default function Navbar() {
       const { receiverName, type } = data;
       setGlobalState({
         posts: posts.map((p) =>
-          p.username === receiverName ? { ...p, liked: true } : p
+          p.username === receiverName ? { ...p, liked: type === "like" } : p
         ),
       });
       setNotifications((prevState) => [...prevState, data]);
@@ -27,7 +27,9 @@ export default function Navbar() {
     return () => socket.off("getNotification", eventListener);
   }, [socket]);
 
-  console.log(notifications);
+  const filteredNotifications = notifications.filter(
+    (n) => n.type !== "unlike"
+  );
 
   return (
     <Styled.Container>
@@ -35,8 +37,8 @@ export default function Navbar() {
       <Styled.IconsContainer>
         <Styled.IconContainer>
           <Styled.HeroBellIcon />
-          {notifications.length > 0 && (
-            <Styled.Counter>{notifications.length}</Styled.Counter>
+          {filteredNotifications.length > 0 && (
+            <Styled.Counter>{filteredNotifications.length}</Styled.Counter>
           )}
         </Styled.IconContainer>
 

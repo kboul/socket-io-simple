@@ -12,19 +12,22 @@ export default function Card() {
   const getHeartIcon = (post) => {
     const { liked } = post;
     const HeartIcon = Styled[liked ? "HeroHeartFilledIcon" : "HeroHeartIcon"];
-    return <HeartIcon onClick={() => handleIconClick(post, "like")} />;
+    return (
+      <HeartIcon
+        onClick={() => handleIconClick(post, liked ? "unlike" : "like")}
+      />
+    );
   };
 
   const handleIconClick = (post, type) => {
-    console.log(post);
     if (!socket) return;
 
-    if (type === "like")
-      setGlobalState({
-        posts: posts.map((p) =>
-          p.id === post.id ? { ...p, liked: !p.liked } : p
-        ),
-      });
+    if (type.includes("like")) {
+      const newPosts = posts.map((p) =>
+        p.id === post.id ? { ...p, liked: !p.liked } : p
+      );
+      setGlobalState({ posts: newPosts });
+    }
 
     if (user === post.username) return;
     socket.emit("sendNotification", {
