@@ -13,7 +13,9 @@ export default function Card({ post, socket, user }) {
   const handleIconClick = (type) => {
     if (!socket) return;
 
-    setLiked(true);
+    if (type === "like") setLiked((prevState) => !prevState);
+
+    if (user === post.username) return;
     socket.emit("sendNotification", {
       senderName: user,
       receiverName: post.username,
