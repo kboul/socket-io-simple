@@ -1,19 +1,30 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 
 import Styled from "./styles";
+import { useStore } from "../../hooks";
 
-export default function Card({ post, socket, user }) {
-  const [liked, setLiked] = useState(false);
+export default function Card() {
+  const posts = useStore((state) => state.posts);
+  const socket = useStore((state) => state.socket);
+  const user = useStore((state) => state.user);
+  const setGlobalState = useStore((state) => state.setGlobalState);
 
-  if (!post) return null;
+  const getHeartIcon = (post) => {
+    const { liked } = post;
+    const HeartIcon = Styled[liked ? "HeroHeartFilledIcon" : "HeroHeartIcon"];
+    return <HeartIcon onClick={() => handleIconClick(post, "like")} />;
+  };
 
-  const HeartIcon = Styled[liked ? "HeroHeartFilledIcon" : "HeroHeartIcon"];
-
-  const handleIconClick = (type) => {
+  const handleIconClick = (post, type) => {
+    console.log(post);
     if (!socket) return;
 
-    if (type === "like") setLiked((prevState) => !prevState);
+    if (type === "like")
+      setGlobalState({
+        posts: posts.map((p) =>
+          p.id === post.id ? { ...p, liked: !p.liked } : p
+        ),
+      });
 
     if (user === post.username) return;
     socket.emit("sendNotification", {
@@ -23,8 +34,8 @@ export default function Card({ post, socket, user }) {
     });
   };
 
-  return (
-    <Styled.Container>
+  return posts.map((post) => (
+    <Styled.Container key={post.id}>
       <Styled.InfoContainer>
         <Styled.UserImgContainer>
           <Styled.UserImg layout="fill" src={post.userImg} />
@@ -37,17 +48,11 @@ export default function Card({ post, socket, user }) {
       </Styled.PostImgContainer>
 
       <Styled.IconsContainer>
-        <HeartIcon onClick={() => handleIconClick("like")} />
-        <Styled.HeroChatIcon onClick={() => handleIconClick("message")} />
-        <Styled.HeroShareIcon onClick={() => handleIconClick("share")} />
+        {getHeartIcon(post)}
+        <Styled.HeroChatIcon onClick={() => handleIconClick(post, "message")} />
+        <Styled.HeroShareIcon onClick={() => handleIconClick(post, "share")} />
         <Styled.HeroInfoIcon />
       </Styled.IconsContainer>
     </Styled.Container>
-  );
+  ));
 }
-
-Card.propTypes = {
-  post: PropTypes.object.isRequired,
-  socket: PropTypes.object,
-  user: PropTypes.string.isRequired,
-};

@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 
 import Styled from "./styles";
+import { useStore } from "../../hooks";
 
-export default function Navbar({ socket }) {
+export default function Navbar() {
+  const socket = useStore((state) => state.socket);
+  const posts = useStore((state) => state.posts);
+  const setGlobalState = useStore((state) => state.setGlobalState);
+
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     if (!socket) return;
 
     const eventListener = (data) => {
+      const { receiverName, type } = data;
+      setGlobalState({
+        posts: posts.map((p) =>
+          p.username === receiverName ? { ...p, liked: true } : p
+        ),
+      });
       setNotifications((prevState) => [...prevState, data]);
     };
     socket.on("getNotification", eventListener);
@@ -41,7 +51,3 @@ export default function Navbar({ socket }) {
     </Styled.Container>
   );
 }
-
-Navbar.propTypes = {
-  socket: PropTypes.object.isRequired,
-};

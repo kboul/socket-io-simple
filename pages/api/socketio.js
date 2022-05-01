@@ -32,6 +32,7 @@ const socketIoHandler = (req, res) => {
       socket.on("sendNotification", ({ senderName, receiverName, type }) => {
         const receiver = getUser(receiverName);
         io.to(receiver.socketId).emit("getNotification", {
+          receiverName,
           senderName,
           type,
         });

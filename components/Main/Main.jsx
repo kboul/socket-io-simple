@@ -4,16 +4,20 @@ import io from "socket.io-client";
 import Card from "../Card/Card";
 import Navbar from "../Navbar/Navbar";
 import Styled from "./styles";
-import { posts } from "./constants";
+import { useStore } from "../../hooks";
 
 export default function Main() {
+  const socket = useStore((state) => state.socket);
+  const user = useStore((state) => state.user);
+  const setGlobalState = useStore((state) => state.setGlobalState);
+
   const [username, setUsername] = useState("");
-  const [user, setUser] = useState("");
-  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    setSocket(io.connect(process.env.BASE_URL, { path: "/api/socketio" }));
-  }, []);
+    setGlobalState({
+      socket: io.connect(process.env.BASE_URL, { path: "/api/socketio" }),
+    });
+  }, [setGlobalState]);
 
   useEffect(() => {
     if (socket && user) socket.emit("newUser", user);
@@ -23,10 +27,8 @@ export default function Main() {
     <Styled.Container>
       {user ? (
         <>
-          <Navbar socket={socket} />
-          {posts.map((post) => (
-            <Card key={post.id} post={post} socket={socket} user={user} />
-          ))}
+          <Navbar />
+          <Card />
           <Styled.UsernameLabel>{user}</Styled.UsernameLabel>
         </>
       ) : (
@@ -36,7 +38,7 @@ export default function Main() {
             placeholder="username"
             value={username}
           />
-          <Styled.LoginBtn onClick={() => setUser(username)}>
+          <Styled.LoginBtn onClick={() => setGlobalState({ user: username })}>
             Login
           </Styled.LoginBtn>
         </Styled.Form>
