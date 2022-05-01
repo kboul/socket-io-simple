@@ -35,9 +35,9 @@ export default function Card({ post, socket, user }) {
       </Styled.PostImgContainer>
 
       <Styled.IconsContainer>
-        <HeartIcon onClick={() => handleIconClick(1)} />
-        <Styled.HeroChatIcon onClick={() => handleIconClick(2)} />
-        <Styled.HeroShareIcon onClick={() => handleIconClick(3)} />
+        <HeartIcon onClick={() => handleIconClick("like")} />
+        <Styled.HeroChatIcon onClick={() => handleIconClick("message")} />
+        <Styled.HeroShareIcon onClick={() => handleIconClick("share")} />
         <Styled.HeroInfoIcon />
       </Styled.IconsContainer>
     </Styled.Container>

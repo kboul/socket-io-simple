@@ -12,11 +12,12 @@ export default function Navbar({ socket }) {
     const eventListener = (data) => {
       setNotifications((prevState) => [...prevState, data]);
     };
-
     socket.on("getNotification", eventListener);
 
     return () => socket.off("getNotification", eventListener);
   }, [socket]);
+
+  console.log(notifications);
 
   return (
     <Styled.Container>
@@ -24,15 +25,17 @@ export default function Navbar({ socket }) {
       <Styled.IconsContainer>
         <Styled.IconContainer>
           <Styled.HeroBellIcon />
-          <Styled.Counter>2</Styled.Counter>
+          {notifications.length > 0 && (
+            <Styled.Counter>{notifications.length}</Styled.Counter>
+          )}
         </Styled.IconContainer>
+
         <Styled.IconContainer>
           <Styled.HeroMailIcon />
-          <Styled.Counter>2</Styled.Counter>
         </Styled.IconContainer>
+
         <Styled.IconContainer>
           <Styled.HeroCogIcon />
-          <Styled.Counter>2</Styled.Counter>
         </Styled.IconContainer>
       </Styled.IconsContainer>
     </Styled.Container>
