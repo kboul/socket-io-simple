@@ -2,6 +2,20 @@ import styled, { css } from "styled-components";
 import { BellIcon as BellFilledIcon } from "@heroicons/react/solid";
 import { BellIcon, CogIcon, MailIcon } from "@heroicons/react/outline";
 
+const AvatarIcon = styled.p`
+  display: inline-block;
+  font-size: 1em;
+  width: 2.5em;
+  height: 2.5em;
+  line-height: 2.5em;
+  text-align: center;
+  border-radius: 50%;
+  background: #673ab7;
+  vertical-align: middle;
+  margin-right: 1em;
+  color: white;
+`;
+
 const Container = styled.div`
   height: 50px;
   background-color: lightseagreen;
@@ -72,6 +86,7 @@ const Notifications = styled.div`
   flex-direction: column;
   border: 1px solid lightseagreen;
   border-radius: 5px;
+  min-width: 200px;
   min-height: 100px;
   max-height: 362px;
   overflow-y: auto;
@@ -87,6 +102,7 @@ const NotificationReceiver = styled.span`
 `;
 
 export default {
+  AvatarIcon,
   Container,
   Counter,
   HeroBellIcon,
