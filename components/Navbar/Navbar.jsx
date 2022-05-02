@@ -1,16 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import Styled from "./styles";
 import { useStore } from "../../hooks";
 
 export default function Navbar() {
+  const notifications = useStore(
+    useCallback((state) => state.notifications, [])
+  );
+  const notificationsPanelOpen = useStore(
+    useCallback((state) => state.notificationsPanelOpen, [])
+  );
   const socket = useStore(useCallback((state) => state.socket, []));
   const posts = useStore(useCallback((state) => state.posts, []));
   const setGlobalState = useStore(
     useCallback((state) => state.setGlobalState, [])
   );
-
-  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     if (!socket) return;
@@ -18,48 +22,61 @@ export default function Navbar() {
     const eventListener = (data) => {
       const { receiverName, type } = data;
       setGlobalState({
+        notifications: [...notifications, data],
+        notificationsPanelOpen: true,
         posts: posts.map((p) =>
           p.username === receiverName ? { ...p, liked: type === "like" } : p
         ),
       });
-      setNotifications((prevState) => [...prevState, data]);
     };
     socket.on("getNotification", eventListener);
 
     return () => socket.off("getNotification", eventListener);
-  }, [posts, setGlobalState, socket]);
+  }, [notifications, posts, setGlobalState, socket]);
 
-  const filteredNotifications = notifications.filter(
-    (n) => n.type !== "unlike"
+  const filteredNotifications = useMemo(
+    () => notifications.filter((n) => n.type !== "unlike"),
+    [notifications]
   );
+
+  const handleIconToggle = () =>
+    setGlobalState({ notificationsPanelOpen: !notificationsPanelOpen });
+
+  const BellIcon =
+    Styled[notificationsPanelOpen ? "HeroBellFilledIcon" : "HeroBellIcon"];
 
   return (
     <Styled.Container>
       <Styled.Logo>Logo</Styled.Logo>
       <Styled.IconsContainer>
         <Styled.IconContainer>
-          <Styled.HeroBellIcon />
+          <BellIcon onClick={handleIconToggle} />
           {filteredNotifications.length > 0 && (
             <Styled.Counter>{filteredNotifications.length}</Styled.Counter>
           )}
         </Styled.IconContainer>
 
         <Styled.IconContainer>
-          <Styled.HeroMailIcon />
+          <Styled.HeroMailIcon onClick={handleIconToggle} />
         </Styled.IconContainer>
 
         <Styled.IconContainer>
-          <Styled.HeroCogIcon />
+          <Styled.HeroCogIcon onClick={handleIconToggle} />
         </Styled.IconContainer>
       </Styled.IconsContainer>
 
-      <Styled.Notifications>
-        {notifications.map(({ senderName, type }, id) => (
-          <Styled.Notification
-            key={id}
-          >{`${senderName} ${type}d your post.`}</Styled.Notification>
-        ))}
-      </Styled.Notifications>
+      {notificationsPanelOpen && (
+        <Styled.Notifications>
+          {notifications.map(({ senderName, type }, id) => (
+            <Styled.Notification key={id}>
+              <Styled.NotificationReceiver>
+                {senderName}
+              </Styled.NotificationReceiver>
+              {` ${type}d your post.`}
+            </Styled.Notification>
+          ))}
+        </Styled.Notifications>
+      )}
     </Styled.Container>
   );
 }

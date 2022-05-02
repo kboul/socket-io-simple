@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
-import { BellIcon, CogIcon, MailIcon } from "@heroicons/react/solid";
+import { BellIcon as BellFilledIcon } from "@heroicons/react/solid";
+import { BellIcon, CogIcon, MailIcon } from "@heroicons/react/outline";
 
 const Container = styled.div`
   height: 50px;
@@ -33,6 +34,7 @@ const Icon = css`
 `;
 
 const HeroBellIcon = styled(BellIcon)(Icon);
+const HeroBellFilledIcon = styled(BellFilledIcon)(Icon);
 const HeroCogIcon = styled(CogIcon)(Icon);
 const HeroMailIcon = styled(MailIcon)(Icon);
 
@@ -66,6 +68,7 @@ const Notifications = styled.div`
   flex-direction: column;
   border: 1px solid lightseagreen;
   border-radius: 5px;
+  min-height: 100px;
   max-height: 362px;
   overflow-y: auto;
 `;
@@ -75,10 +78,15 @@ const Notification = styled.span`
   font-size: 14px;
 `;
 
+const NotificationReceiver = styled.span`
+  font-weight: bold;
+`;
+
 export default {
   Container,
   Counter,
   HeroBellIcon,
+  HeroBellFilledIcon,
   HeroCogIcon,
   HeroMailIcon,
   IconContainer,
@@ -86,4 +94,5 @@ export default {
   Logo,
   Notifications,
   Notification,
+  NotificationReceiver,
 };
