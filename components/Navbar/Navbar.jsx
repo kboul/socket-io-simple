@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import Styled from "./styles";
 import { useStore } from "../../hooks";
+import { getUserInitials } from "./utils";
 
 export default function Navbar() {
   const notifications = useStore(
@@ -15,6 +16,7 @@ export default function Navbar() {
   const setGlobalState = useStore(
     useCallback((state) => state.setGlobalState, [])
   );
+  const user = useStore(useCallback((state) => state.user, []));
 
   useEffect(() => {
     if (!socket) return;
@@ -66,6 +68,10 @@ export default function Navbar() {
 
         <Styled.IconContainer>
           <Styled.HeroCogIcon />
+        </Styled.IconContainer>
+
+        <Styled.IconContainer>
+          <Styled.AvatarIcon>{getUserInitials(posts, user)}</Styled.AvatarIcon>
         </Styled.IconContainer>
       </Styled.IconsContainer>
 

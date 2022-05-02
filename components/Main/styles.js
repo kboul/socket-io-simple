@@ -6,11 +6,13 @@ const CardContainer = styled.div`
   border: 0.5px solid lightseagreen;
 `;
 
-const FormContainer = styled.main`
-  height: 100vh;
+const Container = styled.main`
+  height: ${({ user }) => (!user ? "100vh" : "auto")};
   display: flex;
-  align-items: center;
+  align-items: ${({ user }) => (!user ? "center" : "")};
   justify-content: center;
+  margin-top: ${({ user }) => (!user ? 0 : "60px")};
+  margin-bottom: ${({ user }) => (!user ? 0 : "20px")};
 `;
 
 const Form = styled.form`
@@ -22,6 +24,17 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const LoginBtn = styled.button`
+  width: 90%;
+  padding: 10px;
+  background-color: lightseagreen;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 `;
 
 const UsernameLabel = styled.span`
@@ -40,21 +53,10 @@ const UsernameInput = styled.input`
   margin-bottom: 20px;
 `;
 
-const LoginBtn = styled.button`
-  width: 90%;
-  padding: 10px;
-  background-color: lightseagreen;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
 export default {
+  Container,
   CardContainer,
   Form,
-  FormContainer,
   LoginBtn,
   UsernameInput,
   UsernameLabel,
