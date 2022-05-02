@@ -7,17 +7,7 @@ export default function Card() {
   const user = useStore((state) => state.user);
   const setGlobalState = useStore((state) => state.setGlobalState);
 
-  const getHeartIcon = (post) => {
-    const { liked } = post;
-    const HeartIcon = Styled[liked ? "HeroHeartFilledIcon" : "HeroHeartIcon"];
-    return (
-      <HeartIcon
-        onClick={() => handleIconClick(post, liked ? "unlike" : "like")}
-      />
-    );
-  };
-
-  const handleIconClick = (post, type) => {
+  const handleIconClick = (post, type) => () => {
     if (!socket) return;
 
     if (type.includes("like")) {
@@ -35,25 +25,31 @@ export default function Card() {
     });
   };
 
-  return posts.map((post) => (
-    <Styled.Container key={post.id}>
-      <Styled.InfoContainer>
-        <Styled.UserImgContainer>
-          <Styled.UserImg layout="fill" src={post.userImg} />
-        </Styled.UserImgContainer>
-        <Styled.Fullname>{post.fullname}</Styled.Fullname>
-      </Styled.InfoContainer>
+  return posts.map((post) => {
+    const { liked } = post;
+    const HeartIcon = Styled[liked ? "HeroHeartFilledIcon" : "HeroHeartIcon"];
+    return (
+      <Styled.Container key={post.id}>
+        <Styled.InfoContainer>
+          <Styled.UserImgContainer>
+            <Styled.UserImg layout="fill" src={post.userImg} />
+          </Styled.UserImgContainer>
+          <Styled.Fullname>{post.fullname}</Styled.Fullname>
+        </Styled.InfoContainer>
 
-      <Styled.PostImgContainer>
-        <Styled.PostImg layout="fill" src={post.postImg} />
-      </Styled.PostImgContainer>
+        <Styled.PostImgContainer>
+          <Styled.PostImg layout="fill" src={post.postImg} />
+        </Styled.PostImgContainer>
 
-      <Styled.IconsContainer>
-        {getHeartIcon(post)}
-        <Styled.HeroChatIcon onClick={() => handleIconClick(post, "message")} />
-        <Styled.HeroShareIcon onClick={() => handleIconClick(post, "share")} />
-        <Styled.HeroInfoIcon />
-      </Styled.IconsContainer>
-    </Styled.Container>
-  ));
+        <Styled.IconsContainer>
+          <HeartIcon
+            onClick={handleIconClick(post, liked ? "unlike" : "like")}
+          />
+          <Styled.HeroChatIcon onClick={handleIconClick(post, "message")} />
+          <Styled.HeroShareIcon onClick={handleIconClick(post, "share")} />
+          <Styled.HeroInfoIcon />
+        </Styled.IconsContainer>
+      </Styled.Container>
+    );
+  });
 }
