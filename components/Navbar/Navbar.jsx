@@ -40,14 +40,14 @@ export default function Navbar() {
 
   const handleBellIconToggle = () => {
     if (notifications.length === 0) return;
-    setGlobalState({ notificationsPanelOpen: !notificationsPanelOpen });
+    setGlobalState({
+      notificationsPanelOpen: !notificationsPanelOpen,
+      notifications: notificationsPanelOpen ? [] : notifications,
+    });
   };
 
   const BellIcon =
     Styled[notificationsPanelOpen ? "HeroBellFilledIcon" : "HeroBellIcon"];
-
-  const handleNotificationsClear = () =>
-    setGlobalState({ notificationsPanelOpen: false, notifications: [] });
 
   return (
     <Styled.Container>
@@ -79,11 +79,6 @@ export default function Navbar() {
               {` ${type}${type === "comment" ? "e" : ""}d your post.`}
             </Styled.Notification>
           ))}
-          {filteredNotifications.length > 0 && (
-            <Styled.ClearNotificationsBtn onClick={handleNotificationsClear}>
-              Mark as read
-            </Styled.ClearNotificationsBtn>
-          )}
         </Styled.Notifications>
       )}
     </Styled.Container>

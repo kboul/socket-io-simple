@@ -2,14 +2,6 @@ import styled, { css } from "styled-components";
 import { BellIcon as BellFilledIcon } from "@heroicons/react/solid";
 import { BellIcon, CogIcon, MailIcon } from "@heroicons/react/outline";
 
-const ClearNotificationsBtn = styled.button`
-  width: 80%;
-  padding: 5px;
-  margin: 0 auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
 const Container = styled.div`
   height: 50px;
   background-color: lightseagreen;
@@ -91,7 +83,6 @@ const NotificationReceiver = styled.span`
 `;
 
 export default {
-  ClearNotificationsBtn,
   Container,
   Counter,
   HeroBellIcon,
