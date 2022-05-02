@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Styled from "./styles";
 import { useStore } from "../../hooks";
 
 export default function Navbar() {
-  const socket = useStore((state) => state.socket);
-  const posts = useStore((state) => state.posts);
-  const setGlobalState = useStore((state) => state.setGlobalState);
+  const socket = useStore(useCallback((state) => state.socket, []));
+  const posts = useStore(useCallback((state) => state.posts, []));
+  const setGlobalState = useStore(
+    useCallback((state) => state.setGlobalState, [])
+  );
 
   const [notifications, setNotifications] = useState([]);
 
@@ -25,7 +27,7 @@ export default function Navbar() {
     socket.on("getNotification", eventListener);
 
     return () => socket.off("getNotification", eventListener);
-  }, [socket]);
+  }, [posts, setGlobalState, socket]);
 
   const filteredNotifications = notifications.filter(
     (n) => n.type !== "unlike"

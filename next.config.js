@@ -7,7 +7,7 @@ const nextConfig = {
   },
   images: {
     // allow pictures from this domain
-    domains: ["images.pexels.com"],
+    domains: [],
   },
 };
 

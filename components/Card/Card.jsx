@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import Styled from "./styles";
 import { useStore } from "../../hooks";
 
