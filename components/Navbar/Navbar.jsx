@@ -23,7 +23,6 @@ export default function Navbar() {
       const { receiverName, type } = data;
       setGlobalState({
         notifications: [...notifications, data],
-        notificationsPanelOpen: true,
         posts: posts.map((p) =>
           p.username === receiverName ? { ...p, liked: type === "like" } : p
         ),
@@ -72,7 +71,7 @@ export default function Navbar() {
               <Styled.NotificationReceiver>
                 {senderName}
               </Styled.NotificationReceiver>
-              {` ${type}d your post.`}
+              {` ${type}${type === "comment" ? "e" : ""}d your post.`}
             </Styled.Notification>
           ))}
         </Styled.Notifications>

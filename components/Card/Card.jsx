@@ -45,7 +45,7 @@ export default function Card() {
           <HeartIcon
             onClick={handleIconClick(post, liked ? "unlike" : "like")}
           />
-          <Styled.HeroChatIcon onClick={handleIconClick(post, "message")} />
+          <Styled.HeroChatIcon onClick={handleIconClick(post, "comment")} />
           <Styled.HeroShareIcon onClick={handleIconClick(post, "share")} />
           <Styled.HeroInfoIcon />
         </Styled.IconsContainer>
