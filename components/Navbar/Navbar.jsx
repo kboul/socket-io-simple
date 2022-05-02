@@ -52,6 +52,14 @@ export default function Navbar() {
           <Styled.HeroCogIcon />
         </Styled.IconContainer>
       </Styled.IconsContainer>
+
+      <Styled.Notifications>
+        {notifications.map(({ senderName, type }, id) => (
+          <Styled.Notification
+            key={id}
+          >{`${senderName} ${type}d your post.`}</Styled.Notification>
+        ))}
+      </Styled.Notifications>
     </Styled.Container>
   );
 }
