@@ -11,7 +11,6 @@ export default function MyApp({ Component, pageProps }) {
 
 const GlobalStyle = createGlobalStyle`
   body {
-    display: flex;
-    justify-content: center;
+    margin: 0px;
   } 
 `;

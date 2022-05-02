@@ -9,7 +9,11 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   color: white;
-  position: relative;
+  // fixed
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 `;
 
 const Counter = styled.div`

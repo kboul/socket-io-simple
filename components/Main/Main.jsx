@@ -24,27 +24,24 @@ export default function Main() {
   }, [socket, user]);
 
   return (
-    <>
+    <Styled.Container user={user}>
       {user ? (
         <Styled.CardContainer>
-          <Navbar />
           <Card />
           <Styled.UsernameLabel>{user}</Styled.UsernameLabel>
         </Styled.CardContainer>
       ) : (
-        <Styled.FormContainer>
-          <Styled.Form>
-            <Styled.UsernameInput
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="username"
-              value={username}
-            />
-            <Styled.LoginBtn onClick={() => setGlobalState({ user: username })}>
-              Login
-            </Styled.LoginBtn>
-          </Styled.Form>
-        </Styled.FormContainer>
+        <Styled.Form>
+          <Styled.UsernameInput
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="username"
+            value={username}
+          />
+          <Styled.LoginBtn onClick={() => setGlobalState({ user: username })}>
+            Login
+          </Styled.LoginBtn>
+        </Styled.Form>
       )}
-    </>
+    </Styled.Container>
   );
 }
