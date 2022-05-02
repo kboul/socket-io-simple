@@ -38,35 +38,40 @@ export default function Navbar() {
     [notifications]
   );
 
-  const handleIconToggle = () =>
+  const handleBellIconToggle = () => {
+    if (notifications.length === 0) return;
     setGlobalState({ notificationsPanelOpen: !notificationsPanelOpen });
+  };
 
   const BellIcon =
     Styled[notificationsPanelOpen ? "HeroBellFilledIcon" : "HeroBellIcon"];
+
+  const handleNotificationsClear = () =>
+    setGlobalState({ notificationsPanelOpen: false, notifications: [] });
 
   return (
     <Styled.Container>
       <Styled.Logo>Logo</Styled.Logo>
       <Styled.IconsContainer>
         <Styled.IconContainer>
-          <BellIcon onClick={handleIconToggle} />
+          <BellIcon onClick={handleBellIconToggle} />
           {filteredNotifications.length > 0 && (
             <Styled.Counter>{filteredNotifications.length}</Styled.Counter>
           )}
         </Styled.IconContainer>
 
         <Styled.IconContainer>
-          <Styled.HeroMailIcon onClick={handleIconToggle} />
+          <Styled.HeroMailIcon />
         </Styled.IconContainer>
 
         <Styled.IconContainer>
-          <Styled.HeroCogIcon onClick={handleIconToggle} />
+          <Styled.HeroCogIcon />
         </Styled.IconContainer>
       </Styled.IconsContainer>
 
       {notificationsPanelOpen && (
         <Styled.Notifications>
-          {notifications.map(({ senderName, type }, id) => (
+          {filteredNotifications.map(({ senderName, type }, id) => (
             <Styled.Notification key={id}>
               <Styled.NotificationReceiver>
                 {senderName}
@@ -74,6 +79,11 @@ export default function Navbar() {
               {` ${type}${type === "comment" ? "e" : ""}d your post.`}
             </Styled.Notification>
           ))}
+          {filteredNotifications.length > 0 && (
+            <Styled.ClearNotificationsBtn onClick={handleNotificationsClear}>
+              Mark as read
+            </Styled.ClearNotificationsBtn>
+          )}
         </Styled.Notifications>
       )}
     </Styled.Container>
